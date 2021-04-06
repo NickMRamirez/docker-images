@@ -15,7 +15,7 @@
               document.getElementById("status-fail").style.display = "none";
 
               setInterval(() =>
-                fetch('http://localhost/get-news')
+                fetch('/get-news')
                     .then((response) => {
                         return response.json();
                     })
