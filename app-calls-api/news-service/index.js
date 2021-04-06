@@ -1,5 +1,9 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
+
+// enable all CORS requests
+app.use(cors())
 
 const port = 80
 
