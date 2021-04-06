@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Mad Libs Style News</title>
+        <style type="text/css">
+            article {
+                margin: 2em;
+                border-bottom-style: solid;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = () => {
+              var div = document.getElementById('content');
+              document.getElementById("status-fail").style.display = "none";
+
+              setInterval(() =>
+                fetch('http://localhost/get-news')
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        console.log(data);
+                        
+                        if (data.status == "success") {
+
+                            // show success status
+                            document.getElementById("status-fail").style.display = "none";
+
+                            // add content
+                            var article = document.createElement("article");
+
+                            var time = document.createElement("div");
+                            var currentDate = new Date();
+                            time.innerText = "Published at: " + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+                            article.append(time);
+                            
+                            var articleTitle = document.createElement("h2");
+                            articleTitle.innerText = data.title;
+                            article.append(articleTitle);
+
+                            var contentDiv = document.getElementById("content");
+                            contentDiv.prepend(article);
+                        }
+                        else {
+                            // show fail status
+                            document.getElementById("status-fail").style.display = "";
+                        }
+                    })
+                , 10000);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Mad Libs Style News</h1>
+        <div id="content"></div>
+        <div id="status-fail">Service offline. Could not get the latest news headline.</div>
+    </body>
+</html>
